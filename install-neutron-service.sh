@@ -83,7 +83,7 @@ crudini --set /etc/neutron/dhcp_agent.ini DEFAULT enable_isolated_metadata true
 
 cp /etc/neutron/metadata_agent.ini /etc/neutron/metadata_agent.$(date '+%m.%d.%Y.%H:%M:%S').ini
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_ip controller
-crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret METADATA_SECRET
+crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret $METADATA_SECRET
 
 su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
   --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
