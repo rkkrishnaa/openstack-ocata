@@ -35,4 +35,4 @@ openstack security group rule create --proto tcp --dst-port 22 default
 LOCAL_NET_ID=$(nova net-list | awk '/ localnetwork / { print $2 }')
 openstack server create --flavor m1.nano --image cirros \
   --nic net-id=$LOCAL_NET_ID --security-group default \
-  --key-name default test-instance
+  test-instance
