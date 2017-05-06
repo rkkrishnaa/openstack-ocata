@@ -1,3 +1,8 @@
+#This post installation script will create a tenant network and launch vm under the network.
+
+source userinput.sh
+source admin-openrc
+
 #openstack network create  --share --external \
 #  --provider-physical-network provider \
 #  --provider-network-type flat externalnetwork
