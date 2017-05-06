@@ -2,7 +2,9 @@ source userinput.sh
 source admin-openrc
 export ip=$(/sbin/ifconfig $PUBLIC_INTERFACE_NAME | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 echo "$ip controller" >> /etc/hosts
-apt update && apt upgrade -y && apt dist-upgrade -y
+apt update 
+DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confnew" --force-yes -fuy upgrade
+DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confnew" --force-yes -fuy dist-upgrade
 apt install software-properties-common -y
 add-apt-repository cloud-archive:ocata -y
 apt update && apt dist-upgrade -y
