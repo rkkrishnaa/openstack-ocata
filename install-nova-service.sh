@@ -1,6 +1,10 @@
+#Openstack Ocata bash script installation
+#Bash script to install and configure openstack nova.
+
 source userinput.sh
 source admin-openrc
 
+#mysql database for openstack nova 
 mysql -u root -p$DBPASS << EOF
 CREATE DATABASE nova_api;
 CREATE DATABASE nova;
@@ -19,6 +23,7 @@ GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' \
   IDENTIFIED BY '$NOVA_DBPASS';
 EOF
 
+#install and configure openstack nova service
 openstack user create \
  	--domain default \
  	--password $NOVA_PASS nova
@@ -89,16 +94,18 @@ su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
 su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
 su -s /bin/sh -c "nova-manage db sync" nova
 
-
+#start nova services 
 service nova-api restart
 service nova-consoleauth restart
 service nova-scheduler restart
 service nova-conductor restart
 service nova-novncproxy restart
 
-
+#add nova-compute service
 bash addcomputenode.sh
 su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+
+#verify nova installation
 openstack compute service list
 openstack catalog list
 openstack image list

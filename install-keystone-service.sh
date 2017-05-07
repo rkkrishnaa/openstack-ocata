@@ -1,5 +1,10 @@
+#Openstack Ocata bash script installation
+#Bash script to install and configure openstack keystone.
+
 source userinput.sh
 source admin-openrc
+
+#mysql database for openstack keystone
 mysql -u root -p$DBPASS << EOF
 create database keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
@@ -7,6 +12,8 @@ IDENTIFIED BY '$KEYSTONE_DBPASS';
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
 IDENTIFIED BY '$KEYSTONE_DBPASS';
 EOF
+
+#install and configure keystone service
 apt install keystone -y 
 cp /etc/keystone/keystone.conf /etc/keystone/keystone.$(date '+%m.%d.%Y.%H:%M:%S').conf
 crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:$KEYSTONE_DBPASS@controller/keystone
@@ -43,7 +50,7 @@ openstack role add \
 	--project demo \
 	--user demo user
 
-
+#verify keystone installation
 openstack token issue
 source demo-openrc
 openstack token issue

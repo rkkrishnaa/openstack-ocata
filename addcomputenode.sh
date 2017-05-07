@@ -1,11 +1,22 @@
-#compute node addition
+#Openstack Ocata bash script installation
+#Bash script to install and configure openstack compute node.
+
 source userinput.sh
 source admin-openrc
 export ip=$(/sbin/ifconfig $PUBLIC_INTERFACE_NAME | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 echo "$ip controller" >> /etc/hosts
 apt install nova-compute -y
 apt install neutron-linuxbridge-agent -y
- 
+
+#install ntp server
+apt install chrony -y
+cp /etc/chrony/chrony.conf /etc/chrony/chrony.$(date '+%m.%d.%Y.%H:%M:%S').conf
+sudo sed -i "20i server $NTP_SERVER_COMPUTE_NODE iburst" /etc/chrony/chrony.conf
+sudo sed -i '/debian.pool.ntp.org/d' /etc/chrony/chrony.conf
+service chrony restart
+
+#install and configure compute service
+cp /etc/nova/nova.conf /etc/nova/nova.$(date '+%m.%d.%Y.%H:%M:%S').conf 
 crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:$RABBIT_PASS@controller
 crudini --set /etc/nova/nova.conf DEFAULT my_ip $ip
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron True
@@ -23,7 +34,7 @@ crudini --set /etc/nova/nova.conf keystone_authtoken password $NOVA_PASS
 crudini --set /etc/nova/nova.conf vnc enabled True
 crudini --set /etc/nova/nova.conf vnc vncserver_listen 0.0.0.0
 crudini --set /etc/nova/nova.conf vnc vncserver_proxyclient_address '$my_ip'
-crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://controller:6080/vnc_auto.html
+crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://$ip:6080/vnc_auto.html
 crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 crudini --set /etc/nova/nova.conf placement os_region_name $REGION
@@ -62,6 +73,7 @@ crudini --set /etc/nova/nova.conf neutron password $NEUTRON_PASS
 crudini --set /etc/nova/nova.conf neutron service_metadata_proxy true
 crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret $METADATA_SECRET
 
+cp /etc/neutron/neutron.conf /etc/neutron/neutron.$(date '+%m.%d.%Y.%H:%M:%S').conf
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:$RABBIT_PASS@controller
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 
@@ -75,5 +87,6 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
 crudini --set /etc/neutron/neutron.conf keystone_authtoken password $NEUTRON_PASS
 
+#restart compute and network service in a compute node
 service nova-compute restart
 service neutron-linuxbridge-agent restart

@@ -32,6 +32,7 @@ openstack flavor create --id 2 --vcpus 1 --ram 2048 --disk 10 m1.small
 openstack security group rule create --proto icmp default
 openstack security group rule create --proto tcp --dst-port 22 default
 
+#launch instance
 LOCAL_NET_ID=$(nova net-list | awk '/ localnetwork / { print $2 }')
 openstack server create --flavor m1.nano --image cirros \
   --nic net-id=$LOCAL_NET_ID --security-group default \

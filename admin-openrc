@@ -1,3 +1,5 @@
+#Environment variables to access openstack services via api or cli
+
 export OS_PROJECT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=$ADMIN_PASS

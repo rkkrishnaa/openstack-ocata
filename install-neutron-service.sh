@@ -1,6 +1,10 @@
+#Openstack Ocata bash script installation
+#Bash script to install and configure openstack neutron.
+
 source userinput.sh
 source admin-openrc
 
+#mysql database for openstack neutron
 mysql -u root -p$DBPASS << EOF
 CREATE DATABASE neutron;
 GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
@@ -9,6 +13,7 @@ GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
   IDENTIFIED BY '$NEUTRON_DBPASS';
 EOF
 
+#install and configure openstack neutron service
 openstack user create \
 	--domain default \
 	--password $NEUTRON_PASS neutron
@@ -87,7 +92,8 @@ crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secr
 
 su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
   --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
-  
+
+#start all neutron services and restart required compute services
 service nova-api restart
 service neutron-server restart
 service neutron-linuxbridge-agent restart

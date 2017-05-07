@@ -1,5 +1,10 @@
+#Openstack Ocata bash script installation
+#Bash script to install and configure openstack glance.
+
 source userinput.sh
 source admin-openrc
+
+#mysql database for openstack glance
 mysql -u root -p$DBPASS << EOF
 create database glance;
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' \
@@ -8,6 +13,7 @@ GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' \
 IDENTIFIED BY '$GLANCE_DBPASS';
 EOF
 
+#install and configure glance api and glance registry service
 openstack user create \
 	--domain default \
 	--password $GLANCE_PASS glance
@@ -58,6 +64,7 @@ su -s /bin/sh -c "glance-manage db_sync" glance
 service glance-registry restart
 service glance-api restart
 
+#verify glance installation
 wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
 openstack image create "cirros" \
   --file cirros-0.3.5-x86_64-disk.img \
