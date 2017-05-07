@@ -22,6 +22,7 @@ apt install chrony -y
 cp /etc/chrony/chrony.conf /etc/chrony/chrony.$(date '+%m.%d.%Y.%H:%M:%S').conf
 sudo sed -i "20i server $NTP_SERVER_COMPUTE_NODE iburst" /etc/chrony/chrony.conf
 sudo sed -i '/debian.pool.ntp.org/d' /etc/chrony/chrony.conf
+sudo sed -i "21i allow $NTP_LAN_RANGE" /etc/chrony/chrony.conf
 service chrony restart
 
 #install and configure compute service
@@ -95,6 +96,14 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_name defa
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
 crudini --set /etc/neutron/neutron.conf keystone_authtoken password $NEUTRON_PASS
+
+cp /etc/neutron/plugins/ml2/linuxbridge_agent.ini /etc/neutron/plugins/ml2/linuxbridge_agent.$(date '+%m.%d.%Y.%H:%M:%S').ini
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings provider:$PROVIDER_INTERFACE_NAME
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan true
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip $OVERLAY_INTERFACE_IP_ADDRESS
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population true
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group true
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup firewall_driver neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 
 #restart compute and network service in a compute node
 service nova-compute restart

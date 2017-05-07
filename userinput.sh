@@ -38,6 +38,7 @@ DEMO_PASS='password'
 #NTP 
 NTP_SERVER_CONTROLLER_NODE='in.pool.ntp.org'
 NTP_SERVER_COMPUTE_NODE='controller'
+NTP_LAN_RANGE='192.168.0.0/24'
 
 #Deployment options
 #Basic supporting services and keystone is mandatory, it will be installed. Remaining service installation are optional and it depends on your use case 
