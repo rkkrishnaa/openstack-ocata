@@ -17,30 +17,7 @@ Hardware and Software Requirements:
 Installation Script Folder structure:
 -------------------------------------
 
-openstack-ocata/
-├── addcomputenode.sh
-├── admin-openrc
-├── demo-openrc
-├── install-basic-services.sh
-├── installer.sh
-├── install-glance-service.sh
-├── install-horizon.sh
-├── install-keystone-service.sh
-├── install-neutron-service.sh
-├── install-nova-service.sh
-├── post-installation.sh
-├── service-check-scripts
-│   ├── check-all.sh
-│   ├── check-basicservices.sh
-│   ├── check-glance.sh
-│   ├── check-keystone.sh
-│   ├── check-neutron.sh
-│   ├── check-nova.sh
-│   ├── start_allinstances.py
-│   ├── start_selectedinstances.py
-│   ├── stop_allinstances.py
-│   └── stop_selectedinstances.py
-└── userinput.sh
+![openstack-ocata](openstack-ocata.png?raw=true)
 
 Steps to run the installer script:
 -----------------------------------
