@@ -5,6 +5,7 @@
 HOST='controller'
 PUBLIC_INTERFACE_NAME='eth0'
 export ip=$(/sbin/ifconfig $PUBLIC_INTERFACE_NAME | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
+export controllerip=$(/sbin/ifconfig $PUBLIC_INTERFACE_NAME | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
 OVERLAY_INTERFACE_IP_ADDRESS=$ip
 PROVIDER_INTERFACE_NAME=$PUBLIC_INTERFACE_NAME
 REGION='RegionOne'

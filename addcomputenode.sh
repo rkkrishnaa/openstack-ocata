@@ -4,7 +4,7 @@
 source userinput.sh
 source admin-openrc
 export ip=$(/sbin/ifconfig $PUBLIC_INTERFACE_NAME | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
-echo "$ip controller" >> /etc/hosts
+echo "$controllerip controller" >> /etc/hosts
 apt install nova-compute -y
 apt install neutron-linuxbridge-agent -y
 
