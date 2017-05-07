@@ -40,16 +40,5 @@ On compute node
 * All input parameters required for installation is available in "userinput.sh". Edit the user input file carefully.
 * `bash addcomputenode.sh`
 
-To add block storage nodes:
----------------------------
-On block storge node
---------------------
-*
-
-To add object storage nodes:
-----------------------------
-On object storge node
----------------------
-*
 
 Currently, This repo contains only scripts to install basic openstack services. I will update the installation script for the remaining services in future.
