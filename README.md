@@ -24,7 +24,7 @@ Steps to run the installer script:
 On controller node
 ------------------
 * `apt install git`
-* `git clone https://github.com/thrinethratechhara/openstack-ocata.git`
+* `git clone https://github.com/rkkrishnaa/openstack-ocata.git`
 * `cd openstack-ocata`
 * All input parameters required for installation is available in "userinput.sh". Here you can select the services you want to deploy in your machine. Edit the user input file carefully.
 * `bash installer.sh`
