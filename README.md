@@ -35,7 +35,7 @@ On compute node
 ---------------
 
 * `apt install git`
-* `git clone https://github.com/thrinethratechhara/openstack-ocata.git`
+* `git clone https://github.com/rkkrishnaa/openstack-ocata.git`
 * `cd openstack-ocata`
 * All input parameters required for installation is available in "userinput.sh". Edit the user input file carefully.
 * `bash addcomputenode.sh`
