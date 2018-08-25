@@ -37,3 +37,11 @@ LOCAL_NET_ID=$(nova net-list | awk '/ localnetwork / { print $2 }')
 openstack server create --flavor m1.nano --image cirros \
   --nic net-id=$LOCAL_NET_ID --security-group default \
   test-instance
+
+openstack stack create -t demo-template.yml --parameter "NetID=$LOCAL_NET_ID" stack
+sleep 10
+openstack stack list
+sleep 60
+openstack stack output show --all stack
+openstack server list
+
