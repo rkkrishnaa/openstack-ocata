@@ -33,6 +33,12 @@ if [ $INSTALL_HORIZON == 'yes' ]
   bash install-horizon.sh
 fi
 
+#install and configure openstack heat
+if [ $INSTALL_HEAT == 'yes' ]
+  then
+  bash install-heat-service.sh
+fi
+
 #verify openstack installation
 #create tenant nework and launch instance
 bash post-installation.sh
