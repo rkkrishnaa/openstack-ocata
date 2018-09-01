@@ -15,6 +15,6 @@ sed -i '19i OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"' /etc/openstack-dashbo
 sed -i '20i OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"' /etc/openstack-dashboard/local_settings.py
 sed -i '21i TIME_ZONE = "Asia/Kolkata"' /etc/openstack-dashboard/local_settings.py
 
-chown www-data:www-data /var/lib/openstack-dashboard/secret_key
 apt-get remove --auto-remove openstack-dashboard-ubuntu-theme -y
-service apache2 reload
+rm -rf /var/lib/openstack-dashboard/secret_key
+service apache2 restart
