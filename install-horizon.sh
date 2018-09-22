@@ -14,7 +14,7 @@ sed -i '18i OPENSTACK_API_VERSIONS = { "identity": 3, "image": 2, "volume": 2, }
 sed -i '19i OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"' /etc/openstack-dashboard/local_settings.py
 sed -i '20i OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"' /etc/openstack-dashboard/local_settings.py
 sed -i '21i TIME_ZONE = "Asia/Kolkata"' /etc/openstack-dashboard/local_settings.py
-
+cp local_settings.py /etc/openstack-dashboard/local_settings.py
 apt-get remove --auto-remove openstack-dashboard-ubuntu-theme -y
 rm -rf /var/lib/openstack-dashboard/secret_key
 service apache2 restart
